@@ -1,0 +1,86 @@
+name: 'Smart Comment Actions'
+description: 'Create, update, delete or find a pull request or issue comment'
+inputs:
+  token:
+    description: 'GitHub token'
+    required: true
+  job_status:  
+    description: Status of previous jobs 
+    required: true
+  repository:
+    description: 'The GitHub repository'
+    default: ${{ github.repository }}
+    required: false
+  type:
+    description: create|update|delete|find
+    required: true
+  body:
+    description: 'The comment body'
+    required: false
+  number:
+    description: 'The number of the issue or pull request'
+    required: false
+  # Update/Append comment input
+  # Delete comment input
+  comment_id:
+    description: 'Comment ID. Required to update or delete the comment'
+    required: false
+  # Find comment input
+  author:
+    description: 'GitHub user name of the comment author to find a comment .'
+    required: false
+  search_term:
+    description: 'Search term, which is included in the comment body.'
+    required: false
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Create a comment
+      if: ${{ inputs.job_status != 'success' }}
+      id: create_comment
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        REPO: ${{ inputs.repository }}
+        ACTION_TYPE: "create"
+        BODY: ${{ inputs.body }}
+        ISSUE_NUMBER: ${{ inputs.number }}
+        AUTHOR: ${{ inputs.author }}
+      run: |
+        ${{ github.action_path }}/script.sh 
+      shell: bash
+        
+    - name: Find a comment
+      if: ${{ inputs.job_status != 'failure' }}
+      id: find_comment
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        REPO: ${{ inputs.repository }}
+        ACTION_TYPE: "find"
+        BODY: ${{ inputs.body }}
+        ISSUE_NUMBER: ${{ inputs.number }}
+        COMMENT_ID: ${{ inputs.comment_id }}
+        SEARCH_TERM: ${{ inputs.body }}
+        AUTHOR: ${{ inputs.author }}
+      run: |
+        ${{ github.action_path }}/script.sh 
+      shell: bash
+
+    - name: Debug
+      run: echo ${{ steps.find_comment.outcome }}
+      shell: bash
+      
+    - name: Delete a comment
+      if: ${{ steps.find_comment.outcome == 'success' }}
+      id: delete_comment
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        REPO: ${{ inputs.repository }}
+        ACTION_TYPE: "delete"
+        BODY: ${{ inputs.body }}
+        ISSUE_NUMBER: ${{ inputs.number }}
+        AUTHOR: ${{ inputs.author }}
+        COMMENT_ID: ${{ steps.find_comment.outputs.comment_id }} 
+      run: |
+        ${{ github.action_path }}/script.sh 
+      shell: bash
