@@ -70,7 +70,7 @@ runs:
       shell: bash
       
     - name: Delete a comment
-      if: ${{ steps.find_comment.outcome == 'success' && steps.find_comment.outputs.comment_id != null }}
+      if: ${{ steps.find_comment.outcome == 'success' && steps.find_comment.outputs.comment_id != 'null' }}
       id: delete_comment
       env:
         GH_TOKEN: ${{ inputs.token }}
