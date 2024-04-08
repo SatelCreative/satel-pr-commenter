@@ -64,7 +64,9 @@ runs:
       shell: bash
 
     - name: Debug
-      run: echo ${{ steps.find_comment.outcome }}
+      run: |
+         echo ${{ steps.find_comment.outcome }}
+         echo ${{ steps.find_comment.outputs.comment_id }}
       shell: bash
       
     - name: Delete a comment
