@@ -62,12 +62,6 @@ runs:
       run: |
         ${{ github.action_path }}/script.sh 
       shell: bash
-
-    - name: Debug
-      run: |
-         echo ${{ steps.find_comment.outcome }}
-         echo ${{ steps.find_comment.outputs.comment_id }}
-      shell: bash
       
     - name: Delete a comment
       if: ${{ steps.find_comment.outcome == 'success' && steps.find_comment.outputs.comment_id != 'null' }}
