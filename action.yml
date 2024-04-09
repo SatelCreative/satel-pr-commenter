@@ -35,7 +35,7 @@ runs:
   using: "composite"
   steps:
     - name: Create a comment
-      if: ${{ inputs.job_status == 'failure' && inputs.job_status != 'skipped' }}
+      if: ${{ inputs.job_status == 'failure' || inputs.job_status == 'skipped' }}
       id: create_comment
       env:
         GH_TOKEN: ${{ inputs.token }}
