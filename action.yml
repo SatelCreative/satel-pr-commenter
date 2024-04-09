@@ -34,7 +34,7 @@ runs:
   using: "composite"
   steps:
     - name: Create a comment
-      if: ${{ inputs.job_status != 'success' }}
+      if: ${{ contains(inputs.job_status, 'failure') }}  #${{ inputs.job_status != 'success' }}
       id: create_comment
       env:
         GH_TOKEN: ${{ inputs.token }}
@@ -48,7 +48,7 @@ runs:
       shell: bash
         
     - name: Find a comment
-      if: ${{ inputs.job_status != 'failure' }}
+      if: ${{ contains(inputs.job_status, 'success') }}    #${{ inputs.job_status != 'failure' }}
       id: find_comment
       env:
         GH_TOKEN: ${{ inputs.token }}
