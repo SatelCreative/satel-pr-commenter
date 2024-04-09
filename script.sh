@@ -13,7 +13,7 @@ echo "======= Running create comment ======="
     # Fetch existing comments for the given issue
     existing_comments=$(gh pr view "$ISSUE_NUMBER" --json comments -q '.comments[].body')
     echo existing_comments=$existing_comments $ISSUE_NUMBER
-
+    echo "TEXT=@$AUTHOR$BODY"
     # Check if the new comment body already exists
     if echo "$existing_comments" | grep -q "@$AUTHOR$BODY"; then
         echo "Comment already exists. Not creating again."
