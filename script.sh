@@ -15,7 +15,7 @@ echo "======= Running create comment ======="
     echo existing_comments=$existing_comments $ISSUE_NUMBER
 
     # Check if the new comment body already exists
-    if echo "$existing_comments" | grep -q "@$AUTHOR $BODY"; then
+    if echo "$existing_comments" | grep -q "@$AUTHOR$BODY"; then
         echo "Comment already exists. Not creating again."
         return
     fi
