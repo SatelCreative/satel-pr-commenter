@@ -7,6 +7,7 @@ inputs:
   job_status:  
     description: Status of previous jobs 
     required: true
+    default: '[]'
   repository:
     description: 'The GitHub repository'
     default: ${{ github.repository }}
