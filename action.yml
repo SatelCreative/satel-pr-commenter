@@ -49,7 +49,7 @@ runs:
       shell: bash
         
     - name: Find a comment
-      if: ${{ inputs.job_status != 'failure' }}
+      if: ${{ inputs.job_status != 'failure' || inputs.job_status != 'skipped' }}
       id: find_comment
       env:
         GH_TOKEN: ${{ inputs.token }}
