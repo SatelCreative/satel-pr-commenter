@@ -59,16 +59,15 @@ echo "======= Running find comment ======="
 
     comment_body=$(echo "$comments" | jq -r '.[0].body')
     echo "CommentBody: $comment_body"
-    if [ -n "$comment_body" ]; then
-        if [[ "$comment_body" == *"$SEARCH_TERM"* ]]; then
-            comment_id=$(echo "$comments" | jq -r '.[0].id')
-            echo "Comment found for the search term: '$SEARCH_TERM'."
-            echo "Comment ID: '$comment_id'."
-        else
-            echo "No comment found containing the search term: '$SEARCH_TERM'."
-        fi
+    # Concatenate AUTHOR and SEARCH_TERM
+    search_string="$AUTHOR, $SEARCH_TERM"
+    
+    if [ -n "$comment_body" ] && [ "$comment_body" = "$search_string" ]; then
+        comment_id=$(echo "$comments" | jq -r '.[0].id')
+        echo "Comment found for the search term '$SEARCH_TERM' and author '$AUTHOR'."
+        echo "Comment ID: '$comment_id'."
     else
-        echo "No comment found for the given criteria."
+        echo "No comment found matching the search term '$SEARCH_TERM' and author '$AUTHOR'."
     fi
 
 }
