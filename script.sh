@@ -58,16 +58,19 @@ echo "======= Running find comment ======="
     fi
 
     comment_body=$(echo "$comments" | jq -r '.[0].body')
-
     echo "CommentBody: $comment_body"
-
     if [ -n "$comment_body" ]; then
-        comment_id=$(echo "$comments" | jq -r '.[0].id')
-        echo "Comment found for a search term: '$SEARCH_TERM'."
-        echo "Comment ID: '$comment_id'."
+        if [[ "$comment_body" == *"$SEARCH_TERM"* ]]; then
+            comment_id=$(echo "$comments" | jq -r '.[0].id')
+            echo "Comment found for the search term: '$SEARCH_TERM'."
+            echo "Comment ID: '$comment_id'."
+        else
+            echo "No comment found containing the search term: '$SEARCH_TERM'."
+        fi
     else
         echo "No comment found for the given criteria."
     fi
+
 }
 
 # Function to delete a comment
