@@ -61,7 +61,7 @@ echo "======= Running find comment ======="
     echo "CommentBody: $comment_body"
     # Concatenate AUTHOR and SEARCH_TERM
     echo $AUTHOR
-    search_string="@$AUTHOR , $SEARCH_TERM"
+    search_string="@$AUTHOR$SEARCH_TERM"
     echo "##############"
     echo $search_string
     echo "##############"
@@ -71,7 +71,7 @@ echo "======= Running find comment ======="
         echo "Comment found for the search term '$SEARCH_TERM' and author '$AUTHOR'."
         echo "Comment ID: '$comment_id'."
     else
-        echo "No comment found matching the search term '$SEARCH_TERM' and author '$AUTHOR'."
+        echo "No comment found matching the search term $search_string"
     fi
 
 }
