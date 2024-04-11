@@ -60,7 +60,8 @@ echo "======= Running find comment ======="
     comment_body=$(echo "$comments" | jq -r '.[0].body')
     echo "CommentBody: $comment_body"
     # Concatenate AUTHOR and SEARCH_TERM
-    search_string="$AUTHOR, $SEARCH_TERM"
+    echo $AUTHOR
+    search_string="$AUTHOR , $SEARCH_TERM"
     
     if [ -n "$comment_body" ] && [ "$comment_body" = "$search_string" ]; then
         comment_id=$(echo "$comments" | jq -r '.[0].id')
