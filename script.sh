@@ -49,7 +49,6 @@ echo "======= Running find comment ======="
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "/repos/$REPO/issues/$ISSUE_NUMBER/comments"
     )
-
     status=$?
 
     if [ "$status" -ne 0 ]; then
@@ -60,11 +59,7 @@ echo "======= Running find comment ======="
     comment_body=$(echo "$comments" | jq -r '.[0].body')
     echo "CommentBody: $comment_body"
     # Concatenate AUTHOR and SEARCH_TERM
-    echo $AUTHOR
     search_string="@$AUTHOR $SEARCH_TERM"
-    echo "##############"
-    echo $search_string
-    echo "##############"
     
     if [ -n "$comment_body" ] && [ "$comment_body" = "$search_string" ]; then
         comment_id=$(echo "$comments" | jq -r '.[0].id')
@@ -73,7 +68,6 @@ echo "======= Running find comment ======="
     else
         echo "No comment found matching the search term $search_string"
     fi
-
 }
 
 # Function to delete a comment
