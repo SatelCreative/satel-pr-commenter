@@ -61,7 +61,7 @@ echo "======= Running find comment ======="
     echo "CommentBody: $comment_body"
     # Concatenate AUTHOR and SEARCH_TERM
     echo $AUTHOR
-    search_string="@$AUTHOR$SEARCH_TERM"
+    search_string="@$AUTHOR $SEARCH_TERM"
     echo "##############"
     echo $search_string
     echo "##############"
